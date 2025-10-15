@@ -30,6 +30,9 @@ dist-ssr
 # Project context
 context.md
 
+# Image Context
+imgContext/
+
 # Environment variables
 .env
 .env.local

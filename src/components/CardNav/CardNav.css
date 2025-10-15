@@ -1,0 +1,147 @@
+.card-nav {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  visibility: visible;
+  opacity: 1;
+}
+
+.card-nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Logo */
+.card-nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  transition: transform 0.3s ease;
+}
+
+.card-nav-logo:hover {
+  transform: scale(1.05);
+}
+
+.logo-icon {
+  font-size: 2rem;
+}
+
+.logo-text {
+  white-space: nowrap;
+}
+
+/* Breadcrumbs */
+.card-nav-breadcrumbs {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.breadcrumb-separator {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 300;
+}
+
+.breadcrumb-link {
+  color: white;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.breadcrumb-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.breadcrumb-current {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+/* Cart */
+.card-nav-cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.card-nav-cart:hover {
+  transform: scale(1.1);
+}
+
+.cart-icon {
+  font-size: 1.75rem;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #ff4757;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-nav-container {
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
+  .logo-text {
+    display: none;
+  }
+
+  .card-nav-breadcrumbs {
+    font-size: 0.85rem;
+  }
+
+  .breadcrumb-separator {
+    margin: 0 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-nav-breadcrumbs {
+    display: none;
+  }
+}

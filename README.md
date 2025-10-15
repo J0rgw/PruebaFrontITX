@@ -1,58 +1,146 @@
-# Aplicacion Web con Microfrontends en React
+# ITX Mobile Store - Aplicación de E-commerce con React
 
-Este proyecto es una aplicacion web desarrollada en React que utiliza una arquitectura de microfrontends para mostrar productos obtenidos de una API externa.
+Aplicación web desarrollada en React para la compra de dispositivos móviles, construida como Single Page Application (SPA) que consume la API de ITX Frontend Test.
 
-## Descripcion del Proyecto
+## Descripción del Proyecto
 
-Aplicacion de catalogo de productos que consume la API https://itx-frontend-test.onrender.com/ y muestra la informacion de manera estructurada mediante microfrontends independientes.
+Mini-aplicación de e-commerce para comprar dispositivos móviles con funcionalidades completas de catálogo, búsqueda, detalles de productos y carrito de compras. Implementada con JavaScript ES6, React, y arquitectura de componentes reutilizables.
 
-## Arquitectura
+## Características Principales Implementadas
 
-El proyecto esta organizado en 3 microfrontends principales:
+### Sistema de Caché Inteligente
+- Implementación de caché en cliente con expiración de 1 hora
+- Almacenamiento mediante localStorage
+- Reducción significativa de llamadas al API
+- Revalidación automática después de expiración
 
-### 1. Header
-- Ubicacion: `src/microfrontends/header/Header.jsx`
-- Funcionalidad: Barra de navegacion principal
-- Proporciona enlaces de navegacion entre vistas
+### Header Animado (CardNav Component)
+- Header con gradiente animado usando GSAP
+- Breadcrumbs dinámicos que muestran la navegación actual
+- Contador de carrito con persistencia entre sesiones
+- Animaciones suaves al añadir productos al carrito
+- Diseño totalmente responsivo
 
-### 2. ListView
-- Ubicacion: `src/microfrontends/list-view/ListView.jsx`
-- Funcionalidad: Vista de lista de productos
-- Muestra todos los productos en formato grid
-- Cada producto muestra: imagen, marca, modelo y precio
-- Navegacion a vista de detalles al hacer clic
+### Product List Page (PLP)
+- Búsqueda en tiempo real por marca y modelo
+- Grid responsivo con máximo 4 elementos por fila
+- Animaciones de aparición con FadeContent component
+- Contador de resultados de búsqueda
+- Estados de carga y error manejados elegantemente
 
-### 3. DetailsView
-- Ubicacion: `src/microfrontends/details-view/DetailsView.jsx`
-- Funcionalidad: Vista detallada de un producto
-- Muestra informacion completa del producto seleccionado
-- Incluye boton de regreso a la lista
+### Product Details Page (PDP)
+- Layout de dos columnas (imagen izquierda, info derecha)
+- Especificaciones completas del producto:
+  - Marca, Modelo, Precio
+  - CPU, RAM, Sistema Operativo
+  - Resolución de pantalla, Batería
+  - Cámaras (principal y frontal)
+  - Dimensiones y Peso
+- Selectores de almacenamiento y color
+- Botón de añadir al carrito funcional
+
+### Funcionalidad de Carrito
+- Integración completa con API POST /api/cart
+- Persistencia del contador en localStorage
+- Actualización en tiempo real del contador en header
+- Feedback visual al añadir productos
+- Validación de selecciones requeridas
+
+## Arquitectura del Proyecto
+
+### Componentes Principales
+
+#### CardNav (Header)
+- **Ubicación**: `src/components/CardNav/`
+- **Funcionalidad**: Header principal de la aplicación
+- Logo con navegación a home
+- Breadcrumbs dinámicos
+- Contador de carrito persistente
+- Animaciones con GSAP
+
+#### FadeContent
+- **Ubicación**: `src/components/FadeContent/`
+- **Funcionalidad**: Componente de animación reutilizable
+- Efectos de fade-in suaves
+- Animaciones staggered para listas
+
+#### Actions
+- **Ubicación**: `src/components/Actions/`
+- **Funcionalidad**: Configuración y compra de productos
+- Selectores de almacenamiento
+- Selectores de color
+- Botón de añadir al carrito
+
+### Vistas (Microfrontends)
+
+#### ListView
+- **Ubicación**: `src/microfrontends/list-view/`
+- Grid responsivo de productos
+- Barra de búsqueda en tiempo real
+- Animaciones de aparición
+- Contador de resultados
+
+#### DetailsView
+- **Ubicación**: `src/microfrontends/details-view/`
+- Layout de dos columnas
+- Especificaciones completas
+- Integración con Actions component
+- Link de regreso a la lista
 
 ## Estructura de Archivos
 
 ```
 src/
-  microfrontends/
-    header/
-      Header.jsx
-    list-view/
-      ListView.jsx
-    details-view/
-      DetailsView.jsx
-  services/
-    api.js
-  App.jsx
-  App.css
-  main.jsx
+├── components/
+│   ├── CardNav/
+│   │   ├── CardNav.jsx
+│   │   └── CardNav.css
+│   ├── FadeContent/
+│   │   ├── FadeContent.jsx
+│   │   └── FadeContent.css
+│   └── Actions/
+│       ├── Actions.jsx
+│       └── Actions.css
+├── microfrontends/
+│   ├── list-view/
+│   │   ├── ListView.jsx
+│   │   └── ListView.css
+│   └── details-view/
+│       ├── DetailsView.jsx
+│       └── DetailsView.css
+├── services/
+│   ├── api.js
+│   └── cache.js
+├── App.jsx
+├── App.css
+├── main.jsx
+└── index.css
 ```
 
-## Servicio API
+## Servicios
 
-- Ubicacion: `src/services/api.js`
-- Endpoint utilizado: `GET /api/product`
-- Funciones disponibles:
-  - `getAllProducts()`: Obtiene todos los productos
-  - `getProductById(id)`: Obtiene un producto especifico por ID
+### API Service (`src/services/api.js`)
+
+**Base URL**: `https://itx-frontend-test.onrender.com/api`
+
+#### productService
+- `getAllProducts()`: Obtiene todos los productos con caché
+- `getProductById(id)`: Obtiene un producto específico con caché
+
+#### cartService
+- `addToCart(id, colorCode, storageCode)`: Añade producto al carrito
+- `getCartCount()`: Obtiene contador del carrito
+- `setCartCount(count)`: Actualiza contador del carrito
+
+### Cache Service (`src/services/cache.js`)
+
+Sistema de caché inteligente con las siguientes funciones:
+- `set(key, data)`: Almacena datos con timestamp
+- `get(key)`: Recupera datos si no han expirado
+- `clear(key)`: Elimina un item específico del caché
+- `clearAll()`: Limpia todo el caché
+
+**Tiempo de expiración**: 1 hora desde la última petición
 
 ## Estructura de Datos de Productos
 
@@ -63,99 +151,210 @@ Cada producto contiene:
 - `price`: Precio (puede estar vacio)
 - `imgUrl`: URL de la imagen del producto
 
-## Tecnologias Utilizadas
+## Tecnologías Utilizadas
 
-- React 19.1.1
-- React Router DOM 7.9.4
-- Vite 7.1.7
-- JavaScript (ES6+)
+### Core
+- **React** 19.1.1 - Biblioteca de UI
+- **React Router DOM** 7.9.4 - Enrutamiento SPA
+- **Vite** 7.1.7 - Build tool y dev server
+- **JavaScript ES6+** - Lenguaje de programación
 
-## Instalacion
+### Animaciones
+- **GSAP** 3.13.0 - Animaciones suaves y profesionales
+
+### Iconos
+- **React Icons** 5.5.0 - Librería de iconos
+
+### Desarrollo
+- **ESLint** 9.36.0 - Linter de código
+- **@vitejs/plugin-react-swc** - Compilación rápida con SWC
+
+## Instalación y Ejecución
+
+### Instalación de Dependencias
 
 ```bash
 npm install
 ```
 
-## Ejecucion
+### Scripts Disponibles
 
+#### Modo Desarrollo
 ```bash
+npm start
+# o
 npm run dev
 ```
+La aplicación se ejecutará en `http://localhost:5173/`
 
-La aplicacion se ejecutara en `http://localhost:5174/` (o siguiente puerto disponible)
+#### Build para Producción
+```bash
+npm run build
+```
+Genera una build optimizada en la carpeta `dist/`
+
+#### Linting
+```bash
+npm run lint
+```
+Ejecuta ESLint para verificar la calidad del código
+
+#### Tests
+```bash
+npm test
+```
+Ejecuta los tests del proyecto
+
+#### Preview de Build
+```bash
+npm run preview
+```
+Previsualiza la build de producción localmente
 
 ## Rutas
 
 - `/` - Vista de lista de productos
 - `/product/:id` - Vista de detalles de un producto especifico
 
-## Caracteristicas
+## Características Técnicas Destacadas
 
-- Arquitectura de microfrontends independientes
-- Consumo de API externa
-- Navegacion mediante React Router
-- Diseno responsivo basico
-- Estados de carga y error manejados
-- Sin dependencias de estilos complejos (diseno rudimentario para prueba funcional)
+### Sistema de Caché
+- Implementación con localStorage
+- Expiración automática de 1 hora
+- Reducción de llamadas al API
+- Mejora de rendimiento y experiencia de usuario
 
-## Pendiente
+### Animaciones
+- Animaciones suaves con GSAP
+- FadeContent component reutilizable
+- Animaciones staggered en listas de productos
+- Feedback visual en interacciones
 
-### Funcionalidades por Implementar
+### Persistencia de Datos
+- Contador de carrito persistente entre sesiones
+- Sistema de caché robusto
+- Manejo de eventos custom para sincronización
 
-#### Vista de Lista (ListView)
-- Barra de busqueda en tiempo real para filtrar por marca y modelo
-- Layout responsivo con maximo 4 elementos por fila adaptativo segun resolucion
-- Animacion de aparicion de tarjetas usando FadeContent de reactbits
+### Diseño Responsivo
+- Grid adaptativo (máximo 4 columnas)
+- Breakpoints para tablets y móviles
+- Diseño mobile-first
+- Componentes optimizados para todas las resoluciones
 
-#### Header
-- Implementar breadcrumbs mostrando pagina actual con links de navegacion
-- Agregar contador de items en el carrito (parte derecha)
-- Implementar componente CardNav de reactbits para el diseno del header
-- Titulo/icono que actue como enlace a vista principal
+### Manejo de Estados
+- Estados de carga elegantes
+- Manejo de errores
+- Feedback visual inmediato
+- Validaciones de formularios
 
-#### Vista de Detalles (DetailsView)
-- Usar endpoint individual GET /api/product/:id en lugar de filtrar del listado completo
-- Agregar informacion detallada completa:
-  - CPU
-  - RAM
-  - Sistema Operativo
-  - Resolucion de pantalla
-  - Bateria
-  - Camaras
-  - Dimensiones
-  - Peso
-- Layout en dos columnas (imagen a la izquierda, detalles y acciones a la derecha)
-- Implementar selectores de almacenamiento (storageCode)
-- Implementar selectores de colores (colorCode)
-- Boton "Anadir al carrito" con funcionalidad completa
+## API Endpoints
 
-#### API y Servicios
-- Implementar endpoint POST /api/cart para anadir productos al carrito
-- Actualizar servicio getProductById para usar GET /api/product/:id directamente
-- Sistema de cache con expiracion de 1 hora:
-  - Almacenar informacion del API en cliente
-  - Tiempo de expiracion: 1 hora desde ultima peticion
-  - Revalidar informacion despues de 1 hora
-  - Opciones: localStorage, sessionStorage, IndexedDB o memoria
-- Persistencia del contador del carrito entre recargas de pagina
+### GET /api/product
+Obtiene listado completo de productos
 
-#### Scripts y Configuracion
-- Actualizar package.json con script start para modo desarrollo
-- Agregar script test para lanzamiento de tests
-- Script lint ya configurado
+**Response:**
+```json
+[
+  {
+    "id": "0001",
+    "brand": "Acer",
+    "model": "Iconia Talk S",
+    "price": "170",
+    "imgUrl": "https://...",
+    "cpu": "...",
+    "ram": "...",
+    // ... más campos
+  }
+]
+```
 
-#### Testing
-- Implementar tests para componentes
-- Tests para servicios de API
-- Tests para funcionalidades de cache
-- Tests para funcionalidad del carrito
+### GET /api/product/:id
+Obtiene detalles de un producto específico
 
-#### Mejoras de UI/UX
-- Implementar diseno visual detallado siguiendo estructura definida
-- Mejorar estilos y presentacion de componentes
-- Asegurar responsividad completa en todas las vistas
+**Response:**
+```json
+{
+  "id": "0001",
+  "brand": "Acer",
+  "model": "Iconia Talk S",
+  "price": "170",
+  "imgUrl": "https://...",
+  "cpu": "Quad Core 1.3GHz",
+  "ram": "1GB",
+  "os": "Android",
+  "displayResolution": "1280 x 720",
+  "battery": "3400",
+  "primaryCamera": "5MP",
+  "secondaryCmera": "2MP",
+  "dimentions": "191.7 x 101 x 9.4mm",
+  "weight": "260g",
+  "options": {
+    "colors": [
+      { "code": 1, "name": "Negro" }
+    ],
+    "storages": [
+      { "code": 1, "name": "16GB" }
+    ]
+  }
+}
+```
 
-#### Documentacion y Repositorio
-- Organizar commits evolutivos por hitos
-- Documentar decisiones de arquitectura y diseno
-- Agregar notas explicativas sobre implementaciones especificas
+### POST /api/cart
+Añade un producto al carrito
+
+**Request Body:**
+```json
+{
+  "id": "0001",
+  "colorCode": 1,
+  "storageCode": 1
+}
+```
+
+**Response:**
+```json
+{
+  "count": 1
+}
+```
+
+## Próximas Mejoras
+
+### Testing
+- [ ] Implementar tests unitarios para componentes
+- [ ] Tests de integración para servicios
+- [ ] Tests E2E con Playwright o Cypress
+- [ ] Cobertura de código mínima del 80%
+
+### Funcionalidades Adicionales
+- [ ] Página de carrito completa con gestión de productos
+- [ ] Ordenamiento de productos
+- [X] Limitar carga a 16 cards primero y agregar paginacion
+- [ ] Implementar reactbits? cardnav al menos
+- [ ] Mejor estilo que gradiante morado
+- [ ] Pagina de ver carrito????
+
+### Mejoras Técnicas
+- [ ] Size de las imagenes y render
+- [ ] Internacionalización (i18n)
+- [ ] Dark mode
+- [ ] Mejoras de accesibilidad (a11y)
+
+## Notas de Desarrollo
+
+### Decisiones de Arquitectura
+
+1. **Sistema de Caché**: Se eligió localStorage por su simplicidad y amplio soporte, adecuado para los requisitos del proyecto.
+
+2. **Componentes Reutilizables**: Se crearon componentes genéricos (FadeContent, Actions) que pueden ser reutilizados en otros proyectos.
+
+3. **CSS Modular**: Cada componente tiene su propio archivo CSS para mantener la separación de responsabilidades.
+
+4. **Animaciones con GSAP**: Se eligió GSAP sobre CSS animations por su mayor control y capacidad de crear animaciones complejas.
+
+### Consideraciones de Performance
+
+- Implementación de caché reduce significativamente las llamadas al API
+- Lazy loading implícito con React Router
+- Componentes optimizados con hooks correctos
+- Grid CSS para mejor rendimiento que flexbox en listas grandes
