@@ -80,12 +80,19 @@ export const cartService = {
 
       const data = await response.json();
 
-      // Persist the cart count
-      if (data.count !== undefined) {
-        localStorage.setItem('cart_count', data.count.toString());
-      }
+      console.log('API Response:', data);
 
-      return data;
+      // The API always returns count: 1, so we need to increment our local counter
+      // Get current count from localStorage
+      const currentCount = cartService.getCartCount();
+      const newCount = currentCount + 1;
+
+      // Update localStorage with incremented count
+      localStorage.setItem('cart_count', newCount.toString());
+      console.log('Cart count incremented to:', newCount);
+
+      // Return data with our local count
+      return { ...data, count: newCount };
     } catch (error) {
       console.error('Error:', error);
       throw error;
@@ -101,5 +108,10 @@ export const cartService = {
   // Update cart count in localStorage
   setCartCount: (count) => {
     localStorage.setItem('cart_count', count.toString());
+  },
+
+  // Clear cart count
+  clearCart: () => {
+    localStorage.removeItem('cart_count');
   }
 };

@@ -249,56 +249,6 @@ Previsualiza la build de producción localmente
 
 ## API Endpoints
 
-### GET /api/product
-Obtiene listado completo de productos
-
-**Response:**
-```json
-[
-  {
-    "id": "0001",
-    "brand": "Acer",
-    "model": "Iconia Talk S",
-    "price": "170",
-    "imgUrl": "https://...",
-    "cpu": "...",
-    "ram": "...",
-    // ... más campos
-  }
-]
-```
-
-### GET /api/product/:id
-Obtiene detalles de un producto específico
-
-**Response:**
-```json
-{
-  "id": "0001",
-  "brand": "Acer",
-  "model": "Iconia Talk S",
-  "price": "170",
-  "imgUrl": "https://...",
-  "cpu": "Quad Core 1.3GHz",
-  "ram": "1GB",
-  "os": "Android",
-  "displayResolution": "1280 x 720",
-  "battery": "3400",
-  "primaryCamera": "5MP",
-  "secondaryCmera": "2MP",
-  "dimentions": "191.7 x 101 x 9.4mm",
-  "weight": "260g",
-  "options": {
-    "colors": [
-      { "code": 1, "name": "Negro" }
-    ],
-    "storages": [
-      { "code": 1, "name": "16GB" }
-    ]
-  }
-}
-```
-
 ### POST /api/cart
 Añade un producto al carrito
 
@@ -317,7 +267,10 @@ Añade un producto al carrito
   "count": 1
 }
 ```
-
+Siempre responde con un 1 se agregue el producto que se agregue, no se pide pero he agregado que el contador se obtiene de localStorage y se incrementa segun el numero de productos que se tienen agregados en el carrito, para borrar usar en consola
+```
+localStorage.removeItem('cart_count')
+```
 ## Próximas Mejoras
 
 ### Testing
@@ -332,7 +285,7 @@ Añade un producto al carrito
 - [X] Limitar carga a 16 cards primero y agregar paginacion
 - [ ] Implementar reactbits? cardnav al menos
 - [ ] Mejor estilo que gradiante morado
-- [ ] Pagina de ver carrito????
+- [X] Numero carrito no sube????
 
 ### Mejoras Técnicas
 - [ ] Size de las imagenes y render
@@ -351,10 +304,3 @@ Añade un producto al carrito
 3. **CSS Modular**: Cada componente tiene su propio archivo CSS para mantener la separación de responsabilidades.
 
 4. **Animaciones con GSAP**: Se eligió GSAP sobre CSS animations por su mayor control y capacidad de crear animaciones complejas.
-
-### Consideraciones de Performance
-
-- Implementación de caché reduce significativamente las llamadas al API
-- Lazy loading implícito con React Router
-- Componentes optimizados con hooks correctos
-- Grid CSS para mejor rendimiento que flexbox en listas grandes

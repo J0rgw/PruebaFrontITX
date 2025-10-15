@@ -51,6 +51,7 @@ const CardNav = () => {
   useEffect(() => {
     const handleStorageChange = () => {
       const count = cartService.getCartCount();
+      console.log('CardNav: Cart count updated to:', count);
       setCartCount(count);
     };
 
