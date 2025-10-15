@@ -1,44 +1,44 @@
 .actions-container {
   background: white;
-  padding: 2rem;
-  border-radius: 12px;
+  padding: 1.5rem;
+  border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .actions-title {
-  font-size: 1.5rem;
+  font-size: 1.15rem;
   color: #333;
-  margin: 0 0 1.5rem 0;
-  padding-bottom: 1rem;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.75rem;
   border-bottom: 2px solid #f0f0f0;
 }
 
 .selector-group {
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 
 .selector-label {
   display: block;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #555;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.6rem;
 }
 
 .selector-options {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.6rem;
 }
 
 .selector-option {
-  padding: 0.75rem 1.5rem;
+  padding: 0.6rem 1.25rem;
   border: 2px solid #e0e0e0;
   background: white;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 500;
   color: #555;
 }
@@ -67,19 +67,19 @@
 
 .add-to-cart-btn {
   width: 100%;
-  padding: 1.25rem 2rem;
+  padding: 1rem 1.5rem;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  border-radius: 12px;
-  font-size: 1.1rem;
+  border-radius: 10px;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 0.6rem;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
