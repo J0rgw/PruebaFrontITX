@@ -43,3 +43,9 @@ imgContext/
 # Cache
 .cache
 .parcel-cache
+
+# Testing
+coverage
+playwright-report
+test-results
+.eslintcache
