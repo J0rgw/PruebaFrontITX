@@ -291,7 +291,7 @@ localStorage.removeItem('cart_count')
 
 ## Accesibilidad (WCAG 2.2)
 
-La aplicación ha sido desarrollada siguiendo los estándares WCAG 2.2 (niveles A, AA, y algunas características AAA) para garantizar que sea usable por personas con diversas capacidades.
+La aplicación ha sido desarrollada siguiendo los estándares WCAG 2.2 (niveles A, AA, y algunas características AAA) para garantizar que sea usable por personas con diversas capacidades. VER REPO J0rgw/accessibilityPrompt
 
 ### Implementaciones de Accesibilidad
 
