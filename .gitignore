@@ -24,15 +24,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Claude Code
-.claude/
-
-# Project context
-context.md
-
-# Image Context
-imgContext/
-
 # Environment variables
 .env
 .env.local
