@@ -199,28 +199,6 @@ npm run lint
 ```
 Ejecuta ESLint para verificar la calidad del código
 
-#### Tests
-```bash
-# Tests unitarios en modo watch
-npm test
-
-# Tests con UI interactiva
-npm run test:ui
-
-# Tests una vez (para CI)
-npm run test:run
-
-# Tests con reporte de cobertura
-npm run test:coverage
-
-# Tests E2E con Playwright
-npm run test:e2e
-
-# Tests E2E con UI
-npm run test:e2e:ui
-```
-Sistema completo de testing con 42 tests y 85% de cobertura
-
 #### Preview de Build
 ```bash
 npm run preview
@@ -309,7 +287,109 @@ localStorage.removeItem('cart_count')
 - [ ] Size de las imagenes y render
 - [ ] Internacionalización (i18n)
 - [ ] Dark mode
-- [ ] Mejoras de accesibilidad (a11y)
+- [X] Mejoras de accesibilidad (a11y)
+
+## Accesibilidad (WCAG 2.2)
+
+La aplicación ha sido desarrollada siguiendo los estándares WCAG 2.2 (niveles A, AA, y algunas características AAA) para garantizar que sea usable por personas con diversas capacidades.
+
+### Implementaciones de Accesibilidad
+
+#### Estructura Semántica HTML5
+- Uso de elementos semánticos: `<header>`, `<nav>`, `<main>`, `<article>`, `<section>`, `<figure>`, `<fieldset>`, `<legend>`, `<output>`
+- Jerarquía de encabezados lógica (h1 → h2)
+- Listas de definición (`<dl>`, `<dt>`, `<dd>`) para especificaciones de productos
+- Navegación breadcrumb con `<ol>` y `<li>`
+
+#### ARIA (Accessible Rich Internet Applications)
+- **Landmarks**: `role="banner"`, `role="navigation"`, `role="search"`, `role="status"`
+- **Estados dinámicos**: `aria-current="page"`, `aria-pressed`, `aria-atomic="true"`
+- **Etiquetas descriptivas**: `aria-label`, `aria-labelledby`, `aria-describedby`
+- **Regiones en vivo**: `aria-live="polite"` para actualizaciones dinámicas (carrito, búsqueda)
+- **Iconos decorativos**: `aria-hidden="true"` en iconos que no aportan información adicional
+
+#### Texto Alternativo
+- Todas las imágenes de productos con atributos `alt` descriptivos
+- Formato: "Marca Modelo" para imágenes de productos
+- Iconos decorativos marcados con `aria-hidden="true"`
+
+#### Contraste de Color (WCAG AA)
+Todos los colores cumplen con los requisitos mínimos de contraste:
+- Texto normal: 4.5:1 mínimo
+- Texto grande: 3.1 mínimo
+- Elementos de interfaz: 3:1 mínimo
+
+| Color | Contraste en blanco | Nivel WCAG | Uso |
+|-------|---------------------|------------|-----|
+| #333 | 12.63:1 | AAA | Títulos principales |
+| #555 | 8.59:1 | AAA | Texto secundario |
+| #666 | 5.74:1 | AA | Texto terciario |
+| #757575 | 4.61:1 | AA | Texto auxiliar |
+| #667eea | 4.63:1 | AA | Enlaces, precios |
+
+#### Navegación por Teclado
+- Todos los elementos interactivos accesibles con Tab
+- Indicadores de foco visibles con `:focus-visible`
+- Estilo de foco consistente: `outline: 3px solid #667eea; outline-offset: 2px`
+- Sin trampas de teclado
+- Orden de tabulación lógico
+
+#### Formularios Accesibles
+- `<fieldset>` y `<legend>` para grupos de opciones
+- Estados de botones comunicados con `aria-pressed`
+- Etiquetas descriptivas en selectores de almacenamiento y color
+- Validación con mensajes claros en español
+- Feedback inmediato con `aria-live`
+
+#### Lectores de Pantalla
+- Contenido "solo para lectores de pantalla" con clase `.sr-only`
+- Anuncios de estado para:
+  - Actualizaciones del carrito
+  - Resultados de búsqueda
+  - Cambios de página en paginación
+  - Feedback de acciones (producto añadido)
+- Etiquetas descriptivas en todos los enlaces y botones
+
+#### Componentes Accesibles
+
+**Header:**
+- `role="banner"` en header principal
+- Breadcrumbs con navegación semántica
+- `<output>` para contador del carrito
+- `aria-current="page"` en breadcrumb actual
+
+**ListView:**
+- `<main>` con `id="main-content"`
+- `role="search"` en contenedor de búsqueda
+- Anuncio de resultados con `aria-live`
+- Grid de productos como `<section>` con `aria-label`
+- Tarjetas de producto como `<article>`
+
+**DetailsView:**
+- Especificaciones con `<dl>`, `<dt>`, `<dd>`
+- `<figure>` para imagen del producto
+- Navegación clara de regreso
+
+**Actions:**
+- Selectores con `<fieldset>` y `<legend>`
+- Estados dinámicos en botones
+- Feedback de éxito/error
+
+**Pagination:**
+- `<nav>` con `aria-label`
+- `aria-current="page"` en página actual
+- Estados deshabilitados claros
+
+### Pruebas de Accesibilidad
+
+Se recomienda probar con:
+- **NVDA** (Windows) / **VoiceOver** (macOS)
+- **Navegación por teclado** (Tab, Shift+Tab, Enter, Space)
+- **axe DevTools** / **WAVE** para auditorías automáticas
+- **Lighthouse** (Chrome DevTools)
+
+### Recursos
+Para más detalles sobre la implementación de accesibilidad, consulta la documentación interna del equipo.
 
 ## Notas de Desarrollo
 

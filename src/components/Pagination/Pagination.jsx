@@ -84,34 +84,38 @@ const Pagination = ({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="pagination-container">
-      <div className="pagination-info">
+    <nav className="pagination-container" aria-label="Paginación de productos" role="navigation">
+      <div className="pagination-info" role="status" aria-live="polite" aria-atomic="true">
         Mostrando {startItem} - {endItem} de {totalItems} productos
       </div>
 
-      <div className="pagination-controls">
+      <div className="pagination-controls" role="group" aria-label="Controles de paginación">
         <button
+          type="button"
           className="pagination-btn pagination-arrow"
           onClick={handlePrevious}
           disabled={currentPage === 1}
-          aria-label="Página anterior"
+          aria-label="Ir a la página anterior"
         >
-          <FiChevronLeft />
+          <FiChevronLeft aria-hidden="true" />
         </button>
 
-        <div className="pagination-numbers">
+        <div className="pagination-numbers" role="group" aria-label="Números de página">
           {getPageNumbers().map((page, index) => (
             page === '...' ? (
-              <span key={`ellipsis-${index}`} className="pagination-ellipsis">
+              <span key={`ellipsis-${index}`} className="pagination-ellipsis" aria-hidden="true">
                 ...
               </span>
             ) : (
               <button
                 key={page}
+                type="button"
                 className={`pagination-btn pagination-number ${
                   currentPage === page ? 'active' : ''
                 }`}
                 onClick={() => handlePageClick(page)}
+                aria-label={currentPage === page ? `Página actual: ${page}` : `Ir a página ${page}`}
+                aria-current={currentPage === page ? 'page' : undefined}
               >
                 {page}
               </button>
@@ -120,15 +124,16 @@ const Pagination = ({
         </div>
 
         <button
+          type="button"
           className="pagination-btn pagination-arrow"
           onClick={handleNext}
           disabled={currentPage === totalPages}
-          aria-label="Página siguiente"
+          aria-label="Ir a la página siguiente"
         >
-          <FiChevronRight />
+          <FiChevronRight aria-hidden="true" />
         </button>
       </div>
-    </div>
+    </nav>
   );
 };
 

@@ -69,7 +69,8 @@ const Header = () => {
   // Fetch product name when on product detail page
   useEffect(() => {
     const fetchProductName = async () => {
-      const productIdMatch = location.pathname.match(/^\/product\/(.+)$/);
+      const productPathRegex = /^\/product\/(.+)$/;
+      const productIdMatch = productPathRegex.exec(location.pathname);
 
       if (productIdMatch) {
         const productId = productIdMatch[1];
@@ -109,42 +110,70 @@ const Header = () => {
     return [];
   };
 
+  // Generate cart aria-label
+  const getCartAriaLabel = () => {
+    if (cartCount === 0) {
+      return 'Carrito de compras vacío';
+    }
+    const productWord = cartCount === 1 ? 'producto' : 'productos';
+    return `Carrito de compras con ${cartCount} ${productWord}`;
+  };
+
   const breadcrumbs = getBreadcrumbs();
 
   return (
-    <header ref={headerRef} className="header">
+    <header ref={headerRef} className="header" role="banner">
       <div className="header-container">
         {/* Logo/Brand */}
-        <Link to="/" className="header-logo">
-          <FiSmartphone className="logo-icon" />
+        <Link
+          to="/"
+          className="header-logo"
+          aria-label="ITX Mobile Store - Ir a página principal"
+        >
+          <FiSmartphone className="logo-icon" aria-hidden="true" />
           <span className="logo-text">ITX Mobile Store</span>
         </Link>
 
         {/* Breadcrumbs */}
-        <nav className="header-breadcrumbs">
-          {breadcrumbs.map((crumb, index) => (
-            <span key={crumb.path} className="breadcrumb-item">
-              {index > 0 && <span className="breadcrumb-separator">/</span>}
-              {index === breadcrumbs.length - 1 ? (
-                <span className="breadcrumb-current">{crumb.label}</span>
-              ) : (
-                <Link to={crumb.path} className="breadcrumb-link">
-                  {crumb.label}
-                </Link>
-              )}
-            </span>
-          ))}
+        <nav
+          className="header-breadcrumbs"
+          aria-label="Ruta de navegación"
+        >
+          <ol className="breadcrumb-list">
+            {breadcrumbs.map((crumb, index) => (
+              <li key={crumb.path} className="breadcrumb-item">
+                {index > 0 && <span className="breadcrumb-separator" aria-hidden="true">/</span>}
+                {index === breadcrumbs.length - 1 ? (
+                  <span className="breadcrumb-current" aria-current="page">
+                    {crumb.label}
+                  </span>
+                ) : (
+                  <Link to={crumb.path} className="breadcrumb-link">
+                    {crumb.label}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ol>
         </nav>
 
         {/* Cart Counter */}
-        <div className="header-cart">
-          <FiShoppingCart className="cart-icon" />
+        <output
+          className="header-cart"
+          aria-label={getCartAriaLabel()}
+        >
+          <FiShoppingCart className="cart-icon" aria-hidden="true" />
           {cartCount > 0 && (
-            <span ref={cartBadgeRef} className="cart-badge">
+            <span
+              ref={cartBadgeRef}
+              className="cart-badge"
+              aria-live="polite"
+              aria-atomic="true"
+            >
               {cartCount}
             </span>
           )}
-        </div>
+        </output>
       </div>
     </header>
   );

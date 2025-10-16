@@ -24,6 +24,15 @@ dist-ssr
 *.sln
 *.sw?
 
+# Claude Code
+.claude/
+
+# Project context
+context.md
+
+# Image Context
+imgContext/
+
 # Environment variables
 .env
 .env.local
@@ -40,3 +49,6 @@ coverage
 playwright-report
 test-results
 .eslintcache
+
+# Documentation
+ACCESSIBILITY.md

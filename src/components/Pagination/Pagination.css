@@ -43,6 +43,11 @@
   transform: translateY(-2px);
 }
 
+.pagination-btn:focus-visible {
+  outline: 3px solid #667eea;
+  outline-offset: 2px;
+}
+
 .pagination-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
@@ -66,7 +71,7 @@
 }
 
 .pagination-ellipsis {
-  color: #999;
+  color: #757575;
   padding: 0 0.5rem;
   display: flex;
   align-items: center;

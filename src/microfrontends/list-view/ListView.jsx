@@ -68,8 +68,8 @@ const ListView = () => {
 
   if (loading) {
     return (
-      <div className="list-view-loading">
-        <div className="loading-spinner"></div>
+      <div className="list-view-loading" role="status" aria-live="polite">
+        <div className="loading-spinner" aria-hidden="true"></div>
         <p>Cargando productos...</p>
       </div>
     );
@@ -77,64 +77,90 @@ const ListView = () => {
 
   if (error) {
     return (
-      <div className="list-view-error">
+      <div className="list-view-error" role="alert" aria-live="assertive">
         <p>Error: {error}</p>
       </div>
     );
   }
 
   return (
-    <div className="list-view">
+    <main id="main-content" className="list-view">
       <div className="list-view-container">
         {/* Search Bar */}
-        <div className="search-container">
+        <div className="search-container" role="search">
           <div className="search-input-wrapper">
-            <FiSearch className="search-icon" />
+            <FiSearch className="search-icon" aria-hidden="true" />
+            <label htmlFor="product-search" className="sr-only">
+              Buscar productos por marca o modelo
+            </label>
             <input
-              type="text"
+              id="product-search"
+              type="search"
               className="search-input"
               placeholder="Buscar por marca o modelo..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              aria-label="Buscar productos por marca o modelo"
+              aria-describedby="search-results-count"
+              autoComplete="off"
             />
           </div>
         </div>
 
+        {/* Results Count */}
+        <div
+          id="search-results-count"
+          className="results-count"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <span className="sr-only">
+            {filteredProducts.length === 0
+              ? 'No se encontraron productos'
+              : `${filteredProducts.length} ${filteredProducts.length === 1 ? 'producto encontrado' : 'productos encontrados'}`
+            }
+          </span>
+        </div>
+
         {/* Product Grid */}
         {filteredProducts.length === 0 ? (
-          <div className="no-results">
+          <div className="no-results" role="region" aria-label="Sin resultados">
             <p>No se encontraron productos que coincidan con tu búsqueda</p>
           </div>
         ) : (
           <>
-            <div className="product-grid">
+            <section className="product-grid" role="region" aria-label="Resultados de productos">
               {currentProducts.map((product, index) => (
                 <FadeContent key={product.id} delay={index * 0.05}>
-                  <Link
-                    to={`/product/${product.id}`}
-                    className="product-card-link"
-                  >
-                    <div className="product-card">
-                      <div className="product-image-wrapper">
-                        <img
-                          src={product.imgUrl}
-                          alt={product.model}
-                          className="product-image"
-                          loading="lazy"
-                        />
+                  <article className="product-card-wrapper">
+                    <Link
+                      to={`/product/${product.id}`}
+                      className="product-card-link"
+                      aria-label={`Ver detalles de ${product.brand} ${product.model}${product.price ? `, precio ${product.price} euros` : ''}`}
+                    >
+                      <div className="product-card">
+                        <div className="product-image-wrapper">
+                          <img
+                            src={product.imgUrl}
+                            alt={`${product.brand} ${product.model}`}
+                            className="product-image"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="product-info">
+                          <h2 className="product-brand">{product.brand}</h2>
+                          <p className="product-model">{product.model}</p>
+                          <p className="product-price" aria-label={`Precio: ${product.price ? product.price + ' euros' : 'No disponible'}`}>
+                            {product.price ? `€${product.price}` : 'Precio no disponible'}
+                          </p>
+                        </div>
                       </div>
-                      <div className="product-info">
-                        <h3 className="product-brand">{product.brand}</h3>
-                        <p className="product-model">{product.model}</p>
-                        <p className="product-price">
-                          {product.price ? `€${product.price}` : 'Precio no disponible'}
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
+                    </Link>
+                  </article>
                 </FadeContent>
               ))}
-            </div>
+            </section>
 
             {/* Pagination Controls */}
             <Pagination
@@ -147,7 +173,7 @@ const ListView = () => {
           </>
         )}
       </div>
-    </div>
+    </main>
   );
 };
 

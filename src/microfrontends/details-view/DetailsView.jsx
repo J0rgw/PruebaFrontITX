@@ -33,8 +33,8 @@ const DetailsView = () => {
 
   if (loading) {
     return (
-      <div className="details-loading">
-        <div className="loading-spinner"></div>
+      <div className="details-loading" role="status" aria-live="polite">
+        <div className="loading-spinner" aria-hidden="true"></div>
         <p>Cargando detalles del producto...</p>
       </div>
     );
@@ -42,10 +42,10 @@ const DetailsView = () => {
 
   if (error) {
     return (
-      <div className="details-error">
+      <div className="details-error" role="alert" aria-live="assertive">
         <p>Error: {error}</p>
-        <Link to="/" className="back-link">
-          <FiArrowLeft /> Volver a la lista
+        <Link to="/" className="back-link" aria-label="Volver a la lista de productos">
+          <FiArrowLeft aria-hidden="true" /> Volver a la lista
         </Link>
       </div>
     );
@@ -53,109 +53,113 @@ const DetailsView = () => {
 
   if (!product) {
     return (
-      <div className="details-error">
+      <div className="details-error" role="alert" aria-live="assertive">
         <p>Producto no encontrado</p>
-        <Link to="/" className="back-link">
-          <FiArrowLeft /> Volver a la lista
+        <Link to="/" className="back-link" aria-label="Volver a la lista de productos">
+          <FiArrowLeft aria-hidden="true" /> Volver a la lista
         </Link>
       </div>
     );
   }
 
   return (
-    <div className="details-view">
+    <main id="main-content" className="details-view">
       <div className="details-container">
-        <Link to="/" className="back-link">
-          <FiArrowLeft /> Volver a la lista
-        </Link>
+        <nav aria-label="Navegación de regreso">
+          <Link to="/" className="back-link" aria-label="Volver a la lista de productos">
+            <FiArrowLeft aria-hidden="true" /> Volver a la lista
+          </Link>
+        </nav>
 
-        <div className="details-content">
+        <article className="details-content">
           {/* Left Column - Image */}
           <div className="details-image-column">
-            <div className="image-wrapper">
+            <figure className="image-wrapper">
               <img
                 src={product.imgUrl}
-                alt={product.model}
+                alt={`${product.brand} ${product.model}`}
                 className="product-detail-image"
               />
-            </div>
+            </figure>
           </div>
 
           {/* Right Column - Description and Actions */}
           <div className="details-info-column">
             {/* Product Header */}
-            <div className="product-header">
+            <header className="product-header">
               <h1 className="product-title">{product.brand} {product.model}</h1>
-              <p className="product-price-large">
+              <p className="product-price-large" aria-label={`Precio: ${product.price ? product.price + ' euros' : 'No disponible'}`}>
                 {product.price ? `€${product.price}` : 'Precio no disponible'}
               </p>
-            </div>
+            </header>
 
             {/* Product Specifications */}
-            <div className="product-specs">
-              <h3 className="specs-title">Especificaciones</h3>
+            <section className="product-specs" aria-labelledby="specs-heading">
+              <h2 id="specs-heading" className="specs-title">Especificaciones técnicas</h2>
 
-              <div className="spec-item">
-                <span className="spec-label">Marca:</span>
-                <span className="spec-value">{product.brand || 'N/A'}</span>
-              </div>
+              <dl className="specs-list">
+                <div className="spec-item">
+                  <dt className="spec-label">Marca:</dt>
+                  <dd className="spec-value">{product.brand || 'N/A'}</dd>
+                </div>
 
-              <div className="spec-item">
-                <span className="spec-label">Modelo:</span>
-                <span className="spec-value">{product.model || 'N/A'}</span>
-              </div>
+                <div className="spec-item">
+                  <dt className="spec-label">Modelo:</dt>
+                  <dd className="spec-value">{product.model || 'N/A'}</dd>
+                </div>
 
-              <div className="spec-item">
-                <span className="spec-label">CPU:</span>
-                <span className="spec-value">{product.cpu || 'N/A'}</span>
-              </div>
+                <div className="spec-item">
+                  <dt className="spec-label">CPU:</dt>
+                  <dd className="spec-value">{product.cpu || 'N/A'}</dd>
+                </div>
 
-              <div className="spec-item">
-                <span className="spec-label">RAM:</span>
-                <span className="spec-value">{product.ram || 'N/A'}</span>
-              </div>
+                <div className="spec-item">
+                  <dt className="spec-label">RAM:</dt>
+                  <dd className="spec-value">{product.ram || 'N/A'}</dd>
+                </div>
 
-              <div className="spec-item">
-                <span className="spec-label">Sistema Operativo:</span>
-                <span className="spec-value">{product.os || 'N/A'}</span>
-              </div>
+                <div className="spec-item">
+                  <dt className="spec-label">Sistema Operativo:</dt>
+                  <dd className="spec-value">{product.os || 'N/A'}</dd>
+                </div>
 
-              <div className="spec-item">
-                <span className="spec-label">Resolución:</span>
-                <span className="spec-value">{product.displayResolution || 'N/A'}</span>
-              </div>
+                <div className="spec-item">
+                  <dt className="spec-label">Resolución de pantalla:</dt>
+                  <dd className="spec-value">{product.displayResolution || 'N/A'}</dd>
+                </div>
 
-              <div className="spec-item">
-                <span className="spec-label">Batería:</span>
-                <span className="spec-value">{product.battery || 'N/A'}</span>
-              </div>
+                <div className="spec-item">
+                  <dt className="spec-label">Batería:</dt>
+                  <dd className="spec-value">{product.battery || 'N/A'}</dd>
+                </div>
 
-              <div className="spec-item">
-                <span className="spec-label">Cámaras:</span>
-                <span className="spec-value">
-                  {product.primaryCamera || product.secondaryCmera
-                    ? `Principal: ${product.primaryCamera || 'N/A'}, Frontal: ${product.secondaryCmera || 'N/A'}`
-                    : 'N/A'}
-                </span>
-              </div>
+                <div className="spec-item">
+                  <dt className="spec-label">Cámaras:</dt>
+                  <dd className="spec-value">
+                    {product.primaryCamera || product.secondaryCmera
+                      ? `Principal: ${product.primaryCamera || 'N/A'}, Frontal: ${product.secondaryCmera || 'N/A'}`
+                      : 'N/A'}
+                  </dd>
+                </div>
 
-              <div className="spec-item">
-                <span className="spec-label">Dimensiones:</span>
-                <span className="spec-value">{product.dimentions || 'N/A'}</span>
-              </div>
+                <div className="spec-item">
+                  <dt className="spec-label">Dimensiones:</dt>
+                  <dd className="spec-value">{product.dimentions || 'N/A'}</dd>
+                </div>
 
-              <div className="spec-item">
-                <span className="spec-label">Peso:</span>
-                <span className="spec-value">{product.weight || 'N/A'}</span>
-              </div>
-            </div>
+                <div className="spec-item">
+                  <dt className="spec-label">Peso:</dt>
+                  <dd className="spec-value">{product.weight || 'N/A'}</dd>
+                </div>
+              </dl>
+            </section>
 
             {/* Actions Component */}
             <Actions product={product} />
           </div>
-        </div>
+        </article>
       </div>
-    </div>
+    </main>
   );
 };
 
