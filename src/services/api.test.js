@@ -73,16 +73,12 @@ describe('cartService', () => {
     })
 
     it('should throw error if API request fails', async () => {
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-
       vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
         ok: false,
         status: 400
       }))
 
       await expect(cartService.addToCart('1', 'black', '128GB')).rejects.toThrow('Error al añadir al carrito')
-      expect(consoleSpy).toHaveBeenCalled()
-      consoleSpy.mockRestore()
       vi.unstubAllGlobals()
     })
   })

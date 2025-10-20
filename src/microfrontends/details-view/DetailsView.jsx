@@ -88,8 +88,8 @@ const DetailsView = () => {
             {/* Product Header */}
             <header className="product-header">
               <h1 className="product-title">{product.brand} {product.model}</h1>
-              <p className="product-price-large" aria-label={`Precio: ${product.price ? product.price + ' euros' : 'No disponible'}`}>
-                {product.price ? `€${product.price}` : 'Precio no disponible'}
+              <p className="product-price-large" aria-label={`Precio: ${product.price ? product.price + ' euros' : 'Fuera de stock'}`}>
+                {product.price ? `€${product.price}` : 'Fuera de stock'}
               </p>
             </header>
 

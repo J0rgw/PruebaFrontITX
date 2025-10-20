@@ -13,6 +13,22 @@
   border-bottom: 2px solid #f0f0f0;
 }
 
+.out-of-stock-banner {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.out-of-stock-banner p {
+  margin: 0;
+  color: #856404;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+}
+
 .selector-group {
   margin-bottom: 1.25rem;
   border: none;
@@ -116,6 +132,32 @@
 
 .add-to-cart-btn.success {
   background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+}
+
+.add-to-cart-btn.out-of-stock {
+  background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+  box-shadow: 0 4px 12px rgba(149, 165, 166, 0.3);
+}
+
+.add-to-cart-btn.out-of-stock:hover {
+  transform: none;
+  box-shadow: 0 4px 12px rgba(149, 165, 166, 0.3);
+}
+
+.selector-group[disabled] .selector-option {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.selector-group[disabled] .selector-option:hover {
+  border-color: #e0e0e0;
+  background: white;
+}
+
+.selector-group[disabled] .selector-option.selected {
+  background: #e0e0e0;
+  border-color: #e0e0e0;
+  color: #999;
 }
 
 .btn-icon {

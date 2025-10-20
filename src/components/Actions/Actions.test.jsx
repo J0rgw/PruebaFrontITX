@@ -12,6 +12,7 @@ vi.mock('../../services/api', () => ({
 describe('Actions Component', () => {
   const mockProduct = {
     id: '1',
+    price: 599,
     options: {
       storages: [
         { code: '128GB', name: '128 GB' },
@@ -131,6 +132,7 @@ describe('Actions Component', () => {
   it('should show no options message when no storage available', () => {
     const productNoOptions = {
       id: '1',
+      price: 599,
       options: {
         storages: [],
         colors: []
@@ -156,5 +158,32 @@ describe('Actions Component', () => {
     fireEvent.click(colorButton)
 
     expect(addButton).not.toBeDisabled()
+  })
+
+  it('should show out of stock banner and disable actions when product has no price', () => {
+    const productWithoutPrice = {
+      id: '1',
+      price: null,
+      options: {
+        storages: [
+          { code: '128GB', name: '128 GB' }
+        ],
+        colors: [
+          { code: 'black', name: 'Negro' }
+        ]
+      }
+    }
+
+    render(<Actions product={productWithoutPrice} />)
+
+    expect(screen.getByText('Este producto está actualmente fuera de stock')).toBeInTheDocument()
+
+    const addButton = screen.getByRole('button', { name: /fuera de stock/i })
+    expect(addButton).toBeDisabled()
+
+    const storageButton = screen.getByText('128 GB')
+    const colorButton = screen.getByText('Negro')
+    expect(storageButton).toBeDisabled()
+    expect(colorButton).toBeDisabled()
   })
 })

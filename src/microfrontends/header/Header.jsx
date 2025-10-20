@@ -79,8 +79,8 @@ const Header = () => {
           if (product) {
             setProductName(`${product.brand} ${product.model}`);
           }
-        } catch (error) {
-          console.error('Error fetching product for breadcrumb:', error);
+        } catch {
+          // Silently handle error - breadcrumb will show without product name
           setProductName('');
         }
       } else {

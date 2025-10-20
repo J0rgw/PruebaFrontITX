@@ -167,6 +167,25 @@
   margin: 0;
 }
 
+/* Out of Stock Styles */
+.product-card.out-of-stock {
+  opacity: 0.7;
+}
+
+.product-card.out-of-stock .product-image {
+  filter: grayscale(100%);
+}
+
+.product-card.out-of-stock .product-price {
+  color: #999;
+  font-size: 1.1rem;
+}
+
+.product-card.out-of-stock:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
 /* Loading State */
 .list-view-loading {
   display: flex;

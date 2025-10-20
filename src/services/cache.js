@@ -10,8 +10,8 @@ export const cacheService = {
     };
     try {
       localStorage.setItem(key, JSON.stringify(cacheItem));
-    } catch (error) {
-      console.error('Error saving to cache:', error);
+    } catch {
+      // Silently fail if localStorage is not available
     }
   },
 
@@ -32,8 +32,8 @@ export const cacheService = {
       }
 
       return cacheItem.data;
-    } catch (error) {
-      console.error('Error reading from cache:', error);
+    } catch {
+      // Silently fail and return null if cache is corrupted
       return null;
     }
   },
@@ -42,8 +42,8 @@ export const cacheService = {
   clear: (key) => {
     try {
       localStorage.removeItem(key);
-    } catch (error) {
-      console.error('Error clearing cache:', error);
+    } catch {
+      // Silently fail if localStorage is not available
     }
   },
 
@@ -56,8 +56,8 @@ export const cacheService = {
           localStorage.removeItem(key);
         }
       });
-    } catch (error) {
-      console.error('Error clearing all cache:', error);
+    } catch {
+      // Silently fail if localStorage is not available
     }
   }
 };

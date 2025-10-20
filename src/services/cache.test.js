@@ -62,14 +62,11 @@ describe('cacheService', () => {
     })
 
     it('should handle errors when reading from cache', () => {
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
       localStorage.setItem('test_key', 'invalid json')
 
       const result = cacheService.get('test_key')
 
       expect(result).toBeNull()
-      expect(consoleSpy).toHaveBeenCalledWith('Error reading from cache:', expect.any(Error))
-      consoleSpy.mockRestore()
     })
   })
 
