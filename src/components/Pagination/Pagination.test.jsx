@@ -33,13 +33,13 @@ describe('Pagination Component', () => {
 
   it('should disable previous button on first page', () => {
     render(<Pagination {...defaultProps} currentPage={1} />)
-    const prevButton = screen.getByLabelText('Página anterior')
+    const prevButton = screen.getByLabelText('Ir a la página anterior')
     expect(prevButton).toBeDisabled()
   })
 
   it('should disable next button on last page', () => {
     render(<Pagination {...defaultProps} currentPage={10} />)
-    const nextButton = screen.getByLabelText('Página siguiente')
+    const nextButton = screen.getByLabelText('Ir a la página siguiente')
     expect(nextButton).toBeDisabled()
   })
 
@@ -47,7 +47,7 @@ describe('Pagination Component', () => {
     const onPageChange = vi.fn()
     render(<Pagination {...defaultProps} onPageChange={onPageChange} />)
 
-    const nextButton = screen.getByLabelText('Página siguiente')
+    const nextButton = screen.getByLabelText('Ir a la página siguiente')
     fireEvent.click(nextButton)
 
     expect(onPageChange).toHaveBeenCalledWith(2)
@@ -57,7 +57,7 @@ describe('Pagination Component', () => {
     const onPageChange = vi.fn()
     render(<Pagination {...defaultProps} currentPage={5} onPageChange={onPageChange} />)
 
-    const prevButton = screen.getByLabelText('Página anterior')
+    const prevButton = screen.getByLabelText('Ir a la página anterior')
     fireEvent.click(prevButton)
 
     expect(onPageChange).toHaveBeenCalledWith(4)
@@ -67,7 +67,7 @@ describe('Pagination Component', () => {
     const onPageChange = vi.fn()
     render(<Pagination {...defaultProps} onPageChange={onPageChange} />)
 
-    const pageButton = screen.getByRole('button', { name: '2' })
+    const pageButton = screen.getByLabelText('Ir a página 2')
     fireEvent.click(pageButton)
 
     expect(onPageChange).toHaveBeenCalledWith(2)
@@ -76,7 +76,7 @@ describe('Pagination Component', () => {
   it('should scroll to top when changing page', () => {
     render(<Pagination {...defaultProps} />)
 
-    const nextButton = screen.getByLabelText('Página siguiente')
+    const nextButton = screen.getByLabelText('Ir a la página siguiente')
     fireEvent.click(nextButton)
 
     expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' })
@@ -85,9 +85,11 @@ describe('Pagination Component', () => {
   it('should show all pages when totalPages is 5 or less', () => {
     render(<Pagination {...defaultProps} totalPages={5} />)
 
-    for (let i = 1; i <= 5; i++) {
-      expect(screen.getByRole('button', { name: String(i) })).toBeInTheDocument()
-    }
+    expect(screen.getByLabelText('Página actual: 1')).toBeInTheDocument()
+    expect(screen.getByLabelText('Ir a página 2')).toBeInTheDocument()
+    expect(screen.getByLabelText('Ir a página 3')).toBeInTheDocument()
+    expect(screen.getByLabelText('Ir a página 4')).toBeInTheDocument()
+    expect(screen.getByLabelText('Ir a página 5')).toBeInTheDocument()
   })
 
   it('should show ellipsis when there are many pages', () => {
@@ -100,14 +102,14 @@ describe('Pagination Component', () => {
   it('should show first and last page when totalPages > 5', () => {
     render(<Pagination {...defaultProps} totalPages={20} currentPage={10} />)
 
-    expect(screen.getByRole('button', { name: '1' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: '20' })).toBeInTheDocument()
+    expect(screen.getByLabelText('Ir a página 1')).toBeInTheDocument()
+    expect(screen.getByLabelText('Ir a página 20')).toBeInTheDocument()
   })
 
   it('should highlight current page', () => {
     render(<Pagination {...defaultProps} currentPage={2} />)
 
-    const currentPageButton = screen.getByRole('button', { name: '2' })
+    const currentPageButton = screen.getByLabelText('Página actual: 2')
     expect(currentPageButton).toHaveClass('active')
   })
 
@@ -125,7 +127,7 @@ describe('Pagination Component', () => {
     const onPageChange = vi.fn()
     render(<Pagination {...defaultProps} currentPage={2} onPageChange={onPageChange} />)
 
-    const currentPageButton = screen.getByRole('button', { name: '2' })
+    const currentPageButton = screen.getByLabelText('Página actual: 2')
     fireEvent.click(currentPageButton)
 
     expect(onPageChange).not.toHaveBeenCalled()
